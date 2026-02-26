@@ -1,0 +1,28 @@
+{
+  "name": "mqtt-broker-plus",
+  "version": "1.0.0",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "b": "tsc",
+    "r": "node dist/app.js",
+    "br": "tsc && node dist/app.js",
+    "tbr": "tsc && node dist/test/test.js",
+    "bs": "tsc && node dist/scripts/init.js"
+  },
+  "keywords": [],
+  "author": "harrypoggers25",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/pg": "^8.16.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@harrypoggers25/color-utils": "^1.0.1",
+    "@harrypoggers25/db-postgresql": "^1.2.0",
+    "@harrypoggers25/env": "^1.0.0",
+    "aedes": "^0.51.3",
+    "jsonwebtoken": "^9.0.3"
+  }
+}
