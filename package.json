@@ -8,7 +8,9 @@
     "r": "node dist/app.js",
     "br": "tsc && node dist/app.js",
     "tbr": "tsc && node dist/test/test.js",
-    "bs": "tsc && node dist/scripts/init.js"
+    "sinitbr": "tsc && node dist/scripts/env.script.js && node dist/scripts/db.script.js",
+    "senvbr": "tsc && node dist/scripts/env.script.js",
+    "sdbbr": "tsc && node dist/scripts/db.script.js"
   },
   "keywords": [],
   "author": "harrypoggers25",
