@@ -6,31 +6,31 @@ import { createServer } from 'node:net'
 
 // CONFIGS
 import env from './configs/env.config.js';
-import { Client, ClientToken, db } from './configs/db.config.js';
+import { Device, DeviceToken, db } from './configs/db.config.js';
 
 await db.sync({ alter: false });
 const server = createServer(Aedes.createBroker({
     authenticate: async (_, username, password, done) => {
         try {
-            const client_name = username?.trim();
-            if (!client_name?.trim()) throw new Error('Authentication failed. Client name is required');
+            const device_name = username?.trim();
+            if (!device_name?.trim()) throw new Error('Authentication failed. Device name is required');
 
-            const client_token = password?.toString().trim();
-            if (!client_token) throw new Error('Authentication failed. Client token is required');
+            const device_token = password?.toString().trim();
+            if (!device_token) throw new Error('Authentication failed. Device token is required');
 
-            const clients = await Client.find({ where: { client_name } });
-            if (!clients) throw new Error(`Authentication failed. Failed to fetch client with client name '${client_name}'`);
-            if (!clients.length) throw new Error(`Authentication failed. Client '${client_name}' was not found`);
+            const devices = await Device.find({ where: { device_name } });
+            if (!devices) throw new Error(`Authentication failed. Failed to fetch device with device name '${device_name}'`);
+            if (!devices.length) throw new Error(`Authentication failed. Device '${device_name}' was not found`);
 
-            const { client_id } = clients[0];
-            const clientToken = await ClientToken.find({ where: { client_id } });
-            if (!clientToken) throw new Error(`Authentication failed. Failed to fetch client token for client '${client_name}'`);
-            if (!clientToken.length) throw new Error(`Authentication failed. Client token for client '${client_name} was not found'`);
+            const { device_id } = devices[0];
+            const deviceToken = await DeviceToken.find({ where: { device_id } });
+            if (!deviceToken) throw new Error(`Authentication failed. Failed to fetch device token for device '${device_name}'`);
+            if (!deviceToken.length) throw new Error(`Authentication failed. Device token for device '${device_name} was not found'`);
 
-            if (clientToken[0].client_token !== client_token) throw new Error(`Authentication failed. Client token invalid`);
+            if (deviceToken[0].device_token !== device_token) throw new Error(`Authentication failed. Device token invalid`);
 
-            const decodedToken = jwt.verify(client_token, env.TOKEN_SECRET) as any;
-            if (decodedToken.client_id !== client_id) throw new Error(`Authentication failed. Client token does not match client credentials`);
+            const decodedToken = jwt.verify(device_token, env.TOKEN_SECRET) as any;
+            if (decodedToken.device_id !== device_id) throw new Error(`Authentication failed. Device token does not match device credentials`);
 
             done(null, true);
         } catch (error: any) {
