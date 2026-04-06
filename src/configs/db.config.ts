@@ -25,7 +25,7 @@ UserPassword.setForeignKey(User, 'user_id');
 export const Device = db.define('devices', {
     device_id: { type: DataTypes.SERIAL, allowNull: false, primaryKey: true },
     device_name: { type: DataTypes.VARCHAR(255), allowNull: false },
-    user_id: { type: DataTypes.INTEGER, allowNull: false, unique: true }
+    user_id: { type: DataTypes.INTEGER, allowNull: false }
 });
 Device.setForeignKey(User, 'user_id');
 
