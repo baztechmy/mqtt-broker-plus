@@ -6,7 +6,7 @@ import { createServer } from 'node:net'
 
 // CONFIGS
 import env from './configs/env.config.js';
-import { Device, DeviceToken, db } from './configs/db.config.js';
+import { Model, db } from './configs/db.config.js';
 
 await db.sync({ alter: false });
 const server = createServer(Aedes.createBroker({
@@ -18,12 +18,12 @@ const server = createServer(Aedes.createBroker({
             const device_token = password?.toString().trim();
             if (!device_token) throw new Error('Authentication failed. Device token is required');
 
-            const devices = await Device.find({ where: { device_name } });
+            const devices = await Model.Device.find({ where: { device_name } });
             if (!devices) throw new Error(`Authentication failed. Failed to fetch device with device name '${device_name}'`);
             if (!devices.length) throw new Error(`Authentication failed. Device '${device_name}' was not found`);
 
             const { device_id } = devices[0];
-            const deviceToken = await DeviceToken.find({ where: { device_id } });
+            const deviceToken = await Model.DeviceToken.find({ where: { device_id } });
             if (!deviceToken) throw new Error(`Authentication failed. Failed to fetch device token for device '${device_name}'`);
             if (!deviceToken.length) throw new Error(`Authentication failed. Device token for device '${device_name} was not found'`);
 
